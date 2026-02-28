@@ -11,7 +11,12 @@ const app = express();
 
 // Middleware
 app.use(cors({
-  origin: ['http://localhost:5173', process.env.FRONTEND_URL, process.env.NGROK_URL].filter(Boolean),
+  origin: [
+    'http://localhost:5173',
+    'https://undangan-reuni-backend.vercel.app',
+    process.env.FRONTEND_URL,
+    process.env.NGROK_URL
+  ].filter(Boolean),
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
@@ -57,8 +62,10 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Start server
+// Start server - Railway provides PORT env variable
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`Server running on port ${PORT}`);
 });
+
+module.exports = app;
